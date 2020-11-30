@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
+
 import { Course } from './Course';
 import { CourseService } from './course.service';
 
@@ -14,6 +16,28 @@ export class CourseInfoComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private courseService: CourseService) {}
 
   ngOnInit(): void {
-    this.course = this.courseService.retrieveById(+this.activatedRoute.snapshot.paramMap.get('id')!);
+    this.courseService.retrieveById(+this.activatedRoute.snapshot.paramMap.get('id')!).subscribe({
+      next: course => {
+        this.course = course;
+      },
+      error: err => console.log('Error ', err)
+    });
+  }
+
+  save(): void {
+    this.courseService.save(this.course).subscribe({
+      next: course => {
+        console.log(course)
+        // Custom alert
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Your modifications has been saved',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      },
+      error: err => console.log('Error ', err)
+    });
   }
 }

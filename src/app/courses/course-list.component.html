@@ -33,7 +33,8 @@
         <app-star [rating]='course.rating'></app-star>
       </td>
       <td>
-        <a [routerLink]="['/courses/info', course.id]" [disabled]="!Course" class="btn btn-primary">Edit</a>
+        <fa-icon [icon]="faEdit" [routerLink]="['/courses/info', course.id]" class="btn btn-primary mr-2">Edit</fa-icon>
+        <fa-icon [icon]="faTrash" (click)="deleteById(course.id)" class="btn btn-danger">Delete</fa-icon>
       </td>
 
     </tr>
